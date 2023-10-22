@@ -1,4 +1,4 @@
-package uz.itteacher.onlineshopapp.model
+package com.example.joshqinshop.model
 
 data class Product(
     val brand: String,

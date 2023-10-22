@@ -1,15 +1,17 @@
-package uz.itteacher.onlineshopapp.networking
+package com.example.joshqinshop.networking
 
+import com.example.joshqinshop.model.Comment
+import com.example.joshqinshop.model.CommentData
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import uz.itteacher.onlineshopapp.model.Login
-import uz.itteacher.onlineshopapp.model.Product
-import uz.itteacher.onlineshopapp.model.ProductData
-import uz.itteacher.onlineshopapp.model.User
+import com.example.joshqinshop.model.Login
+import com.example.joshqinshop.model.Product
+import com.example.joshqinshop.model.ProductData
+import com.example.joshqinshop.model.User
 
 interface APIService {
 
@@ -25,5 +27,6 @@ interface APIService {
     @POST("/auth/login")
     fun login(@Body login: Login): Call<User>
 
-
+    @GET("/comments")
+    fun getAllComments(): Call<CommentData>
 }

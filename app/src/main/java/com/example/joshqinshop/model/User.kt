@@ -1,4 +1,6 @@
-package uz.itteacher.onlineshopapp.model
+package com.example.joshqinshop.model
+
+import java.io.Serializable
 
 data class User(
     val email: String,
@@ -9,4 +11,4 @@ data class User(
     val lastName: String,
     val token: String,
     val username: String
-)
+):Serializable

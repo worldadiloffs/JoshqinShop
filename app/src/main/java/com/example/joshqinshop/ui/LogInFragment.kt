@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.joshqinshop.R
+import com.example.joshqinshop.databinding.FragmentLogInBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,8 +36,13 @@ class LogInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_log_in, container, false)
+        val binding = FragmentLogInBinding.inflate(inflater, container, false)
+
+        binding.login.setOnClickListener {
+            findNavController().navigate(R.id.action_logInFragment_to_login2Fragment)
+        }
+
+        return binding.root
     }
 
     companion object {
