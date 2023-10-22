@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.joshqinshop.R
 import com.example.joshqinshop.databinding.FragmentSplashBinding
+import com.example.joshqinshop.util.SharedP
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,8 +39,14 @@ class SplashFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentSplashBinding.inflate(inflater, container, false)
+        val isState = SharedP.getInstance(requireContext()).getBoolean()
+
         Handler().postDelayed({
-            findNavController().navigate(R.id.action_splashFragment_to_logInFragment)
+            if (isState) {
+                findNavController().navigate(R.id.action_splashFragment_to_commentFragment)
+            } else {
+                findNavController().navigate(R.id.action_splashFragment_to_logInFragment)
+            }
         }, 4000)
         return binding.root
     }

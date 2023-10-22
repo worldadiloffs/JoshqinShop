@@ -17,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.example.joshqinshop.model.Login
 import com.example.joshqinshop.model.User
+import com.example.joshqinshop.util.SharedP
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,6 +69,7 @@ class Login2Fragment : Fragment() {
                         bundle.putSerializable("user", userObj)
 //                        findNavController().navigate(R.id.action_login2Fragment_to_homeFragment, bundle)
                         findNavController().navigate(R.id.action_login2Fragment_to_commentFragment)
+                        SharedP.getInstance(requireContext()).setBoolean(true)
                         binding.progressBar.visibility = View.GONE
                     } else {
                         Toast.makeText(
