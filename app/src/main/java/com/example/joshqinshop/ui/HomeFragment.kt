@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.joshqinshop.R
+import com.example.joshqinshop.databinding.FragmentHomeBinding
+import nl.joery.animatedbottombar.AnimatedBottomBar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +37,43 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val binding =FragmentHomeBinding.inflate(layoutInflater, container, false)
+
+        parentFragmentManager.beginTransaction()
+            .apply { replace(R.id.main, HomeScreenFragment()).commit() }
+
+        binding.bottomBar.setOnTabSelectListener(object :AnimatedBottomBar.OnTabSelectListener{
+            override fun onTabSelected(
+                lastIndex: Int,
+                lastTab: AnimatedBottomBar.Tab?,
+                newIndex: Int,
+                newTab: AnimatedBottomBar.Tab
+            ) {
+                when(newIndex){
+                    0 ->{
+                        parentFragmentManager.beginTransaction()
+                            .apply { replace(R.id.main, HomeScreenFragment()).commit() }
+                    }
+                    1 -> {
+                        parentFragmentManager.beginTransaction()
+                            .apply { replace(R.id.main, CategoriesFragment()).commit() }
+                    }
+                    2-> {
+                        parentFragmentManager.beginTransaction()
+                            .apply { replace(R.id.main, OrdersFragment()).commit() }
+                    }
+                    3 ->{
+                        parentFragmentManager.beginTransaction()
+                            .apply { replace(R.id.main, ProfileFragment()).commit() }
+                    }
+                }
+            }
+        })
+
+
+
+
+        return binding.root
     }
 
     companion object {

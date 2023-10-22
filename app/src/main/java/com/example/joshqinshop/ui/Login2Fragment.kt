@@ -68,7 +68,7 @@ class Login2Fragment : Fragment() {
                         val userObj = response.body() as User
                         bundle.putSerializable("user", userObj)
 //                        findNavController().navigate(R.id.action_login2Fragment_to_homeFragment, bundle)
-                        findNavController().navigate(R.id.action_login2Fragment_to_commentFragment)
+                        findNavController().navigate(R.id.action_login2Fragment_to_homeFragment)
                         SharedP.getInstance(requireContext()).setBoolean(true)
                         binding.progressBar.visibility = View.GONE
                     } else {

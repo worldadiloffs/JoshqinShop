@@ -1,15 +1,11 @@
 package com.example.joshqinshop.ui
 
 import android.os.Bundle
-import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.example.joshqinshop.R
-import com.example.joshqinshop.databinding.FragmentSplashBinding
-import com.example.joshqinshop.util.SharedP
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SplashFragment.newInstance] factory method to
+ * Use the [CategoriesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SplashFragment : Fragment() {
+class CategoriesFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -38,17 +34,8 @@ class SplashFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSplashBinding.inflate(inflater, container, false)
-        val isState = SharedP.getInstance(requireContext()).getBoolean()
-
-        Handler().postDelayed({
-            if (isState) {
-                findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
-            } else {
-                findNavController().navigate(R.id.action_splashFragment_to_logInFragment)
-            }
-        }, 4000)
-        return binding.root
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_categories, container, false)
     }
 
     companion object {
@@ -58,12 +45,12 @@ class SplashFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment SplashFragment.
+         * @return A new instance of fragment CategoriesFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SplashFragment().apply {
+            CategoriesFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
