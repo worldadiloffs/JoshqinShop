@@ -1,11 +1,24 @@
 package com.example.joshqinshop.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.joshqinshop.R
+import com.example.joshqinshop.adapter.CommentAdapter
+import com.example.joshqinshop.adapter.ProductAdapter
+import com.example.joshqinshop.databinding.FragmentCommentBinding
+import com.example.joshqinshop.databinding.FragmentHomeScreenBinding
+import com.example.joshqinshop.model.Product
+import com.example.joshqinshop.model.ProductData
+import com.example.joshqinshop.networking.APIClient
+import com.example.joshqinshop.networking.APIService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +48,34 @@ class HomeScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_screen, container, false)
+        val binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
+
+        var productList = mutableListOf<Product>()
+        val api = APIClient.getInstance().create(APIService::class.java)
+        api.getAllProducts().enqueue(object : Callback<ProductData>{
+            override fun onResponse(call: Call<ProductData>, response: Response<ProductData>) {
+                if (response.isSuccessful && response.body() != null){
+                    Log.d("TAG", "onResponse: ${response.body()?.products}")
+                    productList = response.body()!!.products
+                    binding.rv.adapter = ProductAdapter(productList)
+                    binding.rv.layoutManager = LinearLayoutManager(
+                        requireContext(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<ProductData>, t: Throwable) {
+                Log.d("TAG", "onFailure: $t")
+            }
+
+
+        })
+
+
+
+        return binding.root
     }
 
     companion object {

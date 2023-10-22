@@ -77,4 +77,7 @@ dependencies {
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
 
     implementation ("nl.joery.animatedbottombar:library:1.1.0")
+
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation ("io.coil-kt:coil:2.2.2")
 }
