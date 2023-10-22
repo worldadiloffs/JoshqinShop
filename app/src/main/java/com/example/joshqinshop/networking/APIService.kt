@@ -1,5 +1,6 @@
 package com.example.joshqinshop.networking
 
+import com.example.joshqinshop.model.CartsData
 import com.example.joshqinshop.model.Comment
 import com.example.joshqinshop.model.CommentData
 import retrofit2.Call
@@ -29,4 +30,7 @@ interface APIService {
 
     @GET("/comments")
     fun getAllComments(): Call<CommentData>
+
+    @GET("/carts")
+    fun getAllCarts(): Call<CartsData>
 }

@@ -1,10 +1,24 @@
 package com.example.joshqinshop
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.joshqinshop.adapter.CommentAdapter
+import com.example.joshqinshop.adapter.ProductAdapter
+import com.example.joshqinshop.databinding.FragmentMyCartBinding
+import com.example.joshqinshop.model.CartsData
+import com.example.joshqinshop.model.Comment
+import com.example.joshqinshop.model.CommentData
+import com.example.joshqinshop.model.Product
+import com.example.joshqinshop.networking.APIClient
+import com.example.joshqinshop.networking.APIService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +47,31 @@ class My_cart_Fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_cart_, container, false)
+        val binding = FragmentMyCartBinding.inflate(inflater, container, false)
+        var productList = mutableListOf<Product>()
+        val api = APIClient.getInstance().create(APIService::class.java)
+        api.getAllCarts().enqueue(object : Callback<CartsData> {
+            override fun onResponse(call: Call<CartsData>, response: Response<CartsData>) {
+                if (response.isSuccessful && response.body() != null) {
+                    Log.d("TAG", "onResponse: ${response.body()?.productData}")
+                    for (i in response.body()!!.productData) {
+                        productList = i.products
+                    }
+
+                    binding.recyclerView.adapter = ProductAdapter(productList)
+                    binding.recyclerView.layoutManager = LinearLayoutManager(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL,
+                        false
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<CartsData>, t: Throwable) {
+                Log.d("TAG", "onFailure: $t")
+            }
+        })
+        return binding.root
     }
 
     companion object {

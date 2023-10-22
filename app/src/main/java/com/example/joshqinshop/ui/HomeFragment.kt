@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.joshqinshop.My_cart_Fragment
 import com.example.joshqinshop.R
 import com.example.joshqinshop.databinding.FragmentHomeBinding
 import nl.joery.animatedbottombar.AnimatedBottomBar
@@ -60,7 +61,7 @@ class HomeFragment : Fragment() {
                     }
                     2-> {
                         parentFragmentManager.beginTransaction()
-                            .apply { replace(R.id.main, OrdersFragment()).commit() }
+                            .apply { replace(R.id.main, My_cart_Fragment()).commit() }
                     }
                     3 ->{
                         parentFragmentManager.beginTransaction()
