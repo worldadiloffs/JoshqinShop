@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.joshqinshop.R
 import com.example.joshqinshop.adapter.CommentAdapter
@@ -73,7 +75,43 @@ class HomeScreenFragment : Fragment() {
 
         })
 
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    api.searchByName(newText).enqueue(object : Callback<ProductData> {
+                        override fun onResponse(
+                            call: Call<ProductData>,
+                            response: Response<ProductData>
+                        ) {
+                            if (response.isSuccessful && response.body() != null) {
+                                var searchList = response.body()!!.products
+                                var adapter1 = ProductAdapter(searchList)
+                                var manager = GridLayoutManager(
+                                    requireContext(),
+                                    2,
+                                    GridLayoutManager.VERTICAL,
+                                    false
+                                )
+                                binding.rv.adapter = adapter1
+                                binding.rv.layoutManager = manager
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ProductData>, t: Throwable) {
+                            Log.d("TAG", "onFailure: $t")
+                        }
+
+                    })
+                    return true
+                }
+                return false
+            }
+
+        })
 
         return binding.root
     }
