@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
                     }
                     1 -> {
                         parentFragmentManager.beginTransaction()
-                            .apply { replace(R.id.main, CategoriesFragment()).commit() }
+                            .apply { replace(R.id.main, CommentFragment()).commit() }
                     }
                     2-> {
                         parentFragmentManager.beginTransaction()
