@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.joshqinshop.adapter.CartAdapter
 import com.example.joshqinshop.adapter.CommentAdapter
 import com.example.joshqinshop.adapter.ProductAdapter
 import com.example.joshqinshop.databinding.FragmentMyCartBinding
+import com.example.joshqinshop.model.Cart
 import com.example.joshqinshop.model.CartsData
 import com.example.joshqinshop.model.Comment
 import com.example.joshqinshop.model.CommentData
@@ -48,22 +50,29 @@ class My_cart_Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentMyCartBinding.inflate(inflater, container, false)
-        var productList = mutableListOf<Product>()
+        var productList = mutableListOf<Cart>()
+        var total = 0
+        var discount = 0
         val api = APIClient.getInstance().create(APIService::class.java)
         api.getAllCarts().enqueue(object : Callback<CartsData> {
             override fun onResponse(call: Call<CartsData>, response: Response<CartsData>) {
-                if (response.isSuccessful && response.body() != null) {
-                    Log.d("TAG", "onResponse: ${response.body()?.productData}")
-                    for (i in response.body()!!.productData) {
-                        productList = i.products
+                if (response.isSuccessful && response.body()?.carts != null) {
+                    Log.d("TAG", "onResponse: ${response.body()?.carts}")
+                    for (i in response.body()!!.carts) {
+                        total += i.price
+                        discount += i.discountedPrice
                     }
-
-                    binding.recyclerView.adapter = ProductAdapter(productList)
+                    productList = response.body()!!.carts
+                    binding.recyclerView.adapter = CartAdapter(productList)
                     binding.recyclerView.layoutManager = LinearLayoutManager(
                         requireContext(),
-                        LinearLayoutManager.VERTICAL,
+                        LinearLayoutManager.HORIZONTAL,
                         false
                     )
+                    binding.textView4.text = total.toString()
+                    binding.textView6.text = discount.toString()
+                    val totalAmount = total-discount
+                    binding.totalAmountNumber.text = totalAmount.toString()
                 }
             }
 
