@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
                     }
                     2-> {
                         parentFragmentManager.beginTransaction()
-                            .apply { replace(R.id.main, My_cart_Fragment()).commit() }
+                            .apply { replace(R.id.main, OrdersFragment()).commit() }
                     }
                     3 ->{
                         parentFragmentManager.beginTransaction()

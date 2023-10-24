@@ -19,6 +19,12 @@ interface APIService {
     @GET("/products")
     fun getAllProducts(): Call<ProductData>
 
+    @GET("/products/categories")
+    fun getAllCategories(): Call<List<String>>
+
+    @GET("/products/category/{categoryName}")
+    fun getProductByCategory(@Path("categoryName") categoryName: String): Call<ProductData>
+
     @GET("/products/{id}")
     fun getProduct(@Path("id") id: Int): Call<Product>
 

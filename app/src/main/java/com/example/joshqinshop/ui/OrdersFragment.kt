@@ -1,11 +1,17 @@
 package com.example.joshqinshop.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.joshqinshop.R
+import com.example.joshqinshop.adapter.ChoosedAdapter
+import com.example.joshqinshop.databinding.FragmentOrdersBinding
+import com.example.joshqinshop.model.Product
+import com.example.joshqinshop.util.SharedP
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,14 +35,48 @@ class OrdersFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
+    lateinit var choosedList: MutableList<Product>
+    lateinit var mySharedPreferences: SharedP
+    lateinit var binding: FragmentOrdersBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_orders, container, false)
+        binding = FragmentOrdersBinding.inflate(inflater, container, false)
+        mySharedPreferences = SharedP.getInstance(requireContext())
+        choosedList = mySharedPreferences.getSelectedCarsList()
+        Log.d("List", "onCreateView: $choosedList")
+
+        if (mySharedPreferences.getSelectedCarsList().isNotEmpty()){
+            binding.choosedRecycler.visibility = View.VISIBLE
+            binding.notfounded.visibility = View.GONE
+            binding.choosedRecycler.adapter = ChoosedAdapter(requireContext(), object : ChoosedAdapter.OnPressed{
+                override fun onPressed(product: Product) {
+//                    parentFragmentManager.beginTransaction().replace(
+//                        R.id.main,
+//                        SingleProductFragment.newInstance(product)
+//                    ).commit()
+                }
+
+            })
+        }else{
+            binding.choosedRecycler.visibility = View.GONE
+            binding.notfounded.visibility = View.VISIBLE
+        }
+
+
+        binding.backtoMain.setOnClickListener {
+            binding.congratulations.visibility = View.GONE
+        }
+
+        binding.ChoosedBack.setOnClickListener {
+            parentFragmentManager.beginTransaction().replace(R.id.main, HomeFragment()).commit()
+        }
+        return binding.root
     }
+
 
     companion object {
         /**
